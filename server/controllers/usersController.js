@@ -30,28 +30,27 @@ module.exports = {
       email: req.body.email
     })
     .then(user => {
-      bcrypt.compare(req.body.password, user.password, function(err, res) {
-        if (!err) {
-          let token = jwt.sign({
-            email: user.email
-          }, key)
-    
-          res.status(200).send({
-            message: 'Login success',
-            token: token
-          })
-        } else {
-          res.status(400).send({
-            message: 'Login failed, wrong password',
-            detail: err.message
-          })    
-        }
-      })
+      let checkLogin = bcrypt.compareSync(req.body.password, user.password)
 
+      if (checkLogin == true) {
+        let token = jwt.sign({
+          email: user.email
+        }, key)
+  
+        res.status(200).send({
+          message: 'Login success',
+          token: token
+        })
+      } else {
+        res.status(400).send({
+          message: 'Login failed',
+          detail: err.message
+        })
+      }
     })
     .catch(err => {
       res.status(400).send({
-        message: 'Login failed, username not registered',
+        message: 'Login failed',
         detail: err.message
       })
     })
