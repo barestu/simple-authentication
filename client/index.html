@@ -5,31 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
   <div id="app" class="container">
     <div class="row">
       <div class="col-md-5 col-xs-12 jumbotron m-2">
         <h2>Register</h2>
+
+        <div class="alert alert-danger" role="alert" v-if="error.length > 0">
+          Error: {{ error }}
+        </div>
+
+        <div class="alert alert-success" role="alert" v-if="success.length > 0">
+          {{ success }}
+        </div>
+
         <label for="email">Email</label>
         <input type="text" class="form-control" v-model="newEmail">
         <label for="password">Password</label>
         <input type="password" class="form-control" v-model="newPassword">
         <label for="email">Confirm Password</label>
-        <input type="password" class="form-control">
+        <input type="password" class="form-control" v-model="confirmPassword">
         <div class="m-3">
-          <button @click="register(newEmail, newPassword)" class="btn btn-success">Register</button>
+          <button @click="register(newEmail, newPassword, confirmPassword)" class="btn btn-success">Register</button>
         </div>
       </div>
       <div class="col-md-5 col-xs-12 jumbotron m-2">
         <h2>Login</h2>
+
+        <div class="alert alert-danger" role="alert" v-if="errorLogin.length > 0">
+          Error: {{ errorLogin }}
+        </div>
+
+        <div class="alert alert-success" role="alert" v-if="successLogin.length > 0">
+          {{ successLogin }}
+        </div>
+        
         <label for="email">Email</label>
         <input type="text" class="form-control" v-model="email">
         <label for="password">Password</label>
         <input type="password" class="form-control" v-model="password">
         <div class="m-3">
           <button @click="login(email, password)" class="btn btn-warning">Login</button>
+        </div>
+
+        <div class="card" v-if="token.length > 0">
+          <div class="card-header">
+            Your JWT Token!
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ token }}</p>
+          </div>
         </div>
       </div>
     </div>
